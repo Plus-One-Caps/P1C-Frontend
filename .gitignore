@@ -36,6 +36,10 @@ yarn-error.log*
 *.env
 *.env.*
 
+# docs / notes — keep local only
+*.md
+**/*.md
+
 # vercel
 .vercel
 
