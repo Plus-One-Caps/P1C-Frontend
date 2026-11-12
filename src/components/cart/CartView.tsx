@@ -41,7 +41,7 @@ export function CartView() {
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-border bg-white text-ink">
             <ShoppingBag size={24} />
           </div>
-          <h1 className="mt-5 text-3xl font-bold tracking-tight text-ink">
+          <h1 className="mt-5 text-2xl font-bold tracking-tight text-balance text-ink sm:text-3xl">
             Your cart is empty
           </h1>
           <p className="mt-2 text-sm text-ink-soft md:text-base">
@@ -61,7 +61,7 @@ export function CartView() {
       <Container className="flex flex-1 flex-col">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-ink md:text-4xl">
+            <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl md:text-4xl">
               Your cart
             </h1>
             <p className="mt-1.5 text-sm text-ink-soft">

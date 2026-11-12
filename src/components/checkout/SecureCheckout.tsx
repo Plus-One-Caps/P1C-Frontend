@@ -613,7 +613,7 @@ export function SecureCheckout() {
               <p className="text-xs font-bold uppercase tracking-[0.14em] text-ink-soft">
                 Secure checkout
               </p>
-              <h1 className="mt-1.5 text-2xl font-bold tracking-tight text-ink md:text-3xl">
+              <h1 className="mt-1.5 text-xl font-bold tracking-tight text-ink sm:text-2xl md:text-3xl">
                 Almost there
               </h1>
               <p className="mt-1.5 text-sm text-ink-soft">
@@ -1034,7 +1034,7 @@ export function SecureCheckout() {
                   arrow={false}
                   disabled={submitting || !checkoutReady}
                   onClick={() => void placeComplimentaryOrder()}
-                  className="min-w-[12rem]"
+                  className="w-full sm:w-auto sm:min-w-[12rem]"
                 >
                   {submitting ? (
                     <>

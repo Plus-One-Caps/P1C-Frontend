@@ -66,7 +66,7 @@ export function Hero() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={reduce ? undefined : { opacity: 0, y: -10 }}
                   transition={{ duration: 0.28, ease }}
-                  className="absolute inset-x-0 top-0 whitespace-nowrap text-white"
+                  className="absolute inset-x-0 top-0 text-white"
                 >
                   {ROTATING_LINES[index]}
                 </motion.span>

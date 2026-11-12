@@ -182,8 +182,8 @@ export function HatDetail({
   }
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
-      <div>
+    <div className="grid min-w-0 gap-8 sm:gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
+      <div className="min-w-0">
         <div className="relative aspect-[5/4] overflow-hidden rounded-[14px] border border-[#e8eef4] bg-white shadow-[0_12px_40px_-18px_rgba(15,23,42,0.28)]">
           <AnimatePresence mode="wait">
             <motion.div
@@ -280,12 +280,12 @@ export function HatDetail({
         </div>
       </div>
 
-      <div>
+      <div className="min-w-0">
         <p className="text-eyebrow text-pastel-link">
           {[product.brand, product.type].filter(Boolean).join(" · ") ||
             "Custom blank"}
         </p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-ink md:text-4xl">
+        <h1 className="mt-2 text-2xl font-bold tracking-tight text-balance text-ink sm:text-3xl md:text-4xl">
           {product.name}
         </h1>
 

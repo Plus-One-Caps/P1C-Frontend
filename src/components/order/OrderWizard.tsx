@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   AlertCircle,
   ArrowLeft,
+  ArrowRight,
   Check,
   CheckCircle2,
   ChevronDown,
@@ -1047,7 +1048,7 @@ export function OrderWizard({
         : "Next step";
 
   return (
-    <div className="bg-canvas/40 pb-36 md:pb-32">
+    <div className="bg-canvas/40 pb-24 md:pb-32">
       <div ref={topRef} className="scroll-mt-20" />
 
       {/* Status / progress — stays under the site header while scrolling */}
@@ -1064,11 +1065,11 @@ export function OrderWizard({
               arrow={false}
               disabled={step === 0}
               onClick={() => step > 0 && goTo(step - 1)}
-              className="shrink-0 gap-1.5 px-3.5 sm:px-4"
+              className="h-10 w-10 shrink-0 border-transparent px-0 hover:border-transparent sm:h-auto sm:w-auto sm:gap-1.5 sm:border-ink-mid/40 sm:px-4 sm:hover:border-ink-mid"
               aria-label="Back"
             >
               <ArrowLeft
-                size={15}
+                size={16}
                 strokeWidth={2.25}
                 className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-x-[3px] group-focus-visible:-translate-x-[3px]"
               />
@@ -1136,13 +1137,15 @@ export function OrderWizard({
               </ol>
 
               <div className="sm:hidden">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="font-semibold">{STEPS[step].label}</span>
-                  <span className="text-grey-olive">
+                <div className="flex items-center justify-between gap-2 text-sm">
+                  <span className="truncate font-semibold">
+                    {STEPS[step].label}
+                  </span>
+                  <span className="shrink-0 tabular-nums text-grey-olive">
                     {step + 1}/{STEPS.length}
                   </span>
                 </div>
-                <div className="mt-2 h-1 bg-border">
+                <div className="mt-2 h-1 overflow-hidden rounded-full bg-border">
                   <motion.div
                     className="h-full bg-ink"
                     initial={false}
@@ -1158,26 +1161,33 @@ export function OrderWizard({
             <ButtonNative
               variant="secondary"
               size="sm"
-              arrow={step < STEPS.length - 1}
+              arrow={false}
               onClick={next}
               disabled={uploading || (step === 0 && totalQty <= 0)}
-              className="shrink-0 min-w-[5.75rem] px-4 sm:min-w-[6.5rem] sm:px-5"
+              className="h-10 w-10 shrink-0 border-transparent px-0 sm:h-auto sm:w-auto sm:min-w-[6.5rem] sm:gap-1.5 sm:border-ink sm:px-5"
               aria-label={ctaLabel}
             >
               {step === STEPS.length - 1 ? (
                 <>
-                  <span>Add</span>
-                  <Check size={15} strokeWidth={2.5} />
+                  <span className="hidden sm:inline">Add</span>
+                  <Check size={16} strokeWidth={2.5} />
                 </>
               ) : (
-                <span>Next</span>
+                <>
+                  <span className="hidden sm:inline">Next</span>
+                  <ArrowRight
+                    size={16}
+                    strokeWidth={2.25}
+                    className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-[3px] group-focus-visible:translate-x-[3px]"
+                  />
+                </>
               )}
             </ButtonNative>
           </div>
         </Container>
       </div>
 
-      <Container className="py-8 md:py-12">
+      <Container className="py-6 sm:py-8 md:py-12">
         <div
           className={cn(
             "grid gap-8",
@@ -1214,7 +1224,7 @@ export function OrderWizard({
                           Brand
                         </p>
                         <div
-                          className="flex flex-wrap gap-2"
+                          className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
                           role="tablist"
                           aria-label="Filter by brand"
                         >
@@ -1224,7 +1234,7 @@ export function OrderWizard({
                             aria-selected={brandFilter === "all"}
                             onClick={() => setBrandFilter("all")}
                             className={cn(
-                              "inline-flex min-h-10 items-center rounded-[var(--radius-md)] border px-3.5 text-sm font-semibold transition-colors",
+                              "inline-flex min-h-9 shrink-0 items-center rounded-full border px-3 text-[0.8125rem] font-semibold transition-colors sm:min-h-10 sm:rounded-[var(--radius-md)] sm:px-3.5 sm:text-sm",
                               brandFilter === "all"
                                 ? "border-ink bg-ink text-white"
                                 : "border-border bg-white text-ink-soft hover:border-ink/40 hover:text-ink",
@@ -1243,7 +1253,7 @@ export function OrderWizard({
                               aria-selected={brandFilter === b.name}
                               onClick={() => setBrandFilter(b.name)}
                               className={cn(
-                                "inline-flex min-h-10 items-center rounded-[var(--radius-md)] border px-3.5 text-sm font-semibold transition-colors",
+                                "inline-flex min-h-9 shrink-0 items-center rounded-full border px-3 text-[0.8125rem] font-semibold transition-colors sm:min-h-10 sm:rounded-[var(--radius-md)] sm:px-3.5 sm:text-sm",
                                 brandFilter === b.name
                                   ? "border-ink bg-ink text-white"
                                   : "border-border bg-white text-ink-soft hover:border-ink/40 hover:text-ink",
@@ -1265,7 +1275,7 @@ export function OrderWizard({
                           Style
                         </p>
                         <div
-                          className="flex flex-wrap gap-2"
+                          className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
                           role="tablist"
                           aria-label="Blank collections"
                         >
@@ -1275,7 +1285,7 @@ export function OrderWizard({
                             aria-selected={groupFilter === "all"}
                             onClick={() => setGroupFilter("all")}
                             className={cn(
-                              "inline-flex min-h-10 items-center rounded-[var(--radius-md)] border px-3.5 text-sm font-semibold transition-colors",
+                              "inline-flex min-h-9 shrink-0 items-center rounded-full border px-3 text-[0.8125rem] font-semibold transition-colors sm:min-h-10 sm:rounded-[var(--radius-md)] sm:px-3.5 sm:text-sm",
                               groupFilter === "all"
                                 ? "border-ink bg-ink text-white"
                                 : "border-border bg-white text-ink-soft hover:border-ink/40 hover:text-ink",
@@ -1294,7 +1304,7 @@ export function OrderWizard({
                               aria-selected={groupFilter === g.slug}
                               onClick={() => setGroupFilter(g.slug)}
                               className={cn(
-                                "inline-flex min-h-10 items-center rounded-[var(--radius-md)] border px-3.5 text-sm font-semibold transition-colors",
+                                "inline-flex min-h-9 shrink-0 items-center rounded-full border px-3 text-[0.8125rem] font-semibold transition-colors sm:min-h-10 sm:rounded-[var(--radius-md)] sm:px-3.5 sm:text-sm",
                                 groupFilter === g.slug
                                   ? "border-ink bg-ink text-white"
                                   : "border-border bg-white text-ink-soft hover:border-ink/40 hover:text-ink",
@@ -1745,7 +1755,8 @@ export function OrderWizard({
                   </motion.p>
                 )}
               </AnimatePresence>
-              <div className="flex items-center justify-between gap-3">
+              {/* Desktop/tablet only — mobile uses sticky arrows + floating bar */}
+              <div className="hidden items-center justify-between gap-3 sm:flex">
                 {step > 0 ? (
                   <ButtonNative
                     variant="outline"
@@ -2037,9 +2048,15 @@ function StepShell({
 }) {
   return (
     <section>
-      <h1 className="text-2xl font-bold tracking-tight md:text-3xl">{title}</h1>
-      {subtitle && <p className="mt-2 text-sm text-grey-olive md:text-base">{subtitle}</p>}
-      <div className="mt-7">{children}</div>
+      <h1 className="text-xl font-bold tracking-tight text-balance sm:text-2xl md:text-3xl">
+        {title}
+      </h1>
+      {subtitle && (
+        <p className="mt-2 text-sm leading-relaxed text-pretty text-grey-olive md:text-base">
+          {subtitle}
+        </p>
+      )}
+      <div className="mt-6 sm:mt-7">{children}</div>
     </section>
   );
 }

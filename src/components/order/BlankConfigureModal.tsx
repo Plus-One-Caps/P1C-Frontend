@@ -721,8 +721,13 @@ export function BlankConfigureModal({
                   ) : null}
                 </p>
               </div>
-              <div className="flex gap-2">
-                <ButtonNative variant="outline" size="lg" onClick={onClose}>
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:w-auto">
+                <ButtonNative
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto"
+                  onClick={onClose}
+                >
                   Cancel
                 </ButtonNative>
                 <ButtonNative
@@ -731,8 +736,10 @@ export function BlankConfigureModal({
                   arrow
                   disabled={lineTotal <= 0}
                   onClick={handleAdd}
+                  className="w-full sm:w-auto"
                 >
-                  Add to order
+                  Add
+                  <span className="hidden sm:inline"> to order</span>
                 </ButtonNative>
               </div>
             </div>

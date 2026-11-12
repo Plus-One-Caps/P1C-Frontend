@@ -108,7 +108,7 @@ export function AccountExperience() {
             <h1 className="mt-3 text-section-title text-ink md:text-5xl">
               Orders & designs, ready to reorder
             </h1>
-            <p className="mt-4 text-base leading-relaxed text-ink-soft md:text-lg">
+            <p className="mt-4 text-sm leading-relaxed text-pretty text-ink-soft sm:text-base md:text-lg">
               Sign in with the email from your order to see past runs, reuse
               artwork, and kick off the same hats in a couple of taps.
             </p>
@@ -130,7 +130,7 @@ export function AccountExperience() {
         <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border pb-8">
           <div>
             <p className="text-eyebrow text-ink">Account</p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-ink md:text-4xl">
+            <h1 className="mt-2 text-2xl font-bold tracking-tight text-balance text-ink sm:text-3xl md:text-4xl">
               Welcome back, {greeting}
             </h1>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-ink-soft md:text-base">

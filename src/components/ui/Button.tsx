@@ -26,13 +26,13 @@ const variants: Record<Variant, string> = {
 };
 
 const sizes: Record<Size, string> = {
-  sm: "min-h-10 gap-[0.35rem] px-4 py-2 text-sm",
-  md: "min-h-11 gap-[0.45rem] px-6 py-2.5 text-[1rem]",
-  lg: "min-h-12 gap-[0.45rem] px-7 py-3 text-[1rem]",
+  sm: "min-h-10 gap-[0.35rem] px-3.5 py-2 text-sm sm:px-4",
+  md: "min-h-11 gap-[0.45rem] px-5 py-2.5 text-[0.9375rem] sm:px-6 sm:text-[1rem]",
+  lg: "min-h-12 gap-[0.45rem] px-5 py-3 text-[0.9375rem] sm:px-7 sm:text-[1rem]",
 };
 
 const base =
-  "inline-flex items-center justify-center rounded-full font-semibold no-underline shadow-none transition-[background,color,border-color] duration-150";
+  "inline-flex max-w-full items-center justify-center rounded-full font-semibold no-underline shadow-none transition-[background,color,border-color] duration-150";
 
 function ButtonArrow({ className }: { className?: string }) {
   return (

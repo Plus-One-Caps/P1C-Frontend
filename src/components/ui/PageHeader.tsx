@@ -13,18 +13,22 @@ type Props = {
 export function PageHeader({ eyebrow, title, description, className, children }: Props) {
   return (
     <section className={cn("border-b border-border bg-white", className)}>
-      <Container className="py-14 md:py-20">
-        <div className="max-w-2xl">
+      <Container className="py-10 sm:py-14 md:py-20">
+        <div className="max-w-2xl min-w-0">
           {eyebrow && <p className="text-eyebrow text-ink">{eyebrow}</p>}
           <h1 className="mt-3 text-section-title text-ink md:text-5xl">
             {title}
           </h1>
           {description && (
-            <p className="mt-4 text-base leading-relaxed text-ink-soft md:text-lg">
+            <p className="mt-4 text-sm leading-relaxed text-pretty text-ink-soft sm:text-base md:text-lg">
               {description}
             </p>
           )}
-          {children && <div className="mt-7">{children}</div>}
+          {children && (
+            <div className="mt-6 flex flex-col gap-3 sm:mt-7 sm:flex-row sm:flex-wrap">
+              {children}
+            </div>
+          )}
         </div>
       </Container>
     </section>

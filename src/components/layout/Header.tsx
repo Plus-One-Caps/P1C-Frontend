@@ -62,16 +62,16 @@ export function Header() {
       )}
     >
       {/* Top bar — Blanks-style: logo · search · phone · sign in · cart */}
-      <div className="relative mx-auto flex min-h-[3.65rem] items-center justify-between gap-3 px-5 py-3 md:min-h-[5.5rem] md:gap-5 md:px-8 lg:px-12">
+      <div className="relative mx-auto flex min-h-[3.65rem] items-center justify-between gap-2 px-3 py-3 sm:gap-3 sm:px-5 md:min-h-[5.5rem] md:gap-5 md:px-8 lg:px-12">
         <div className="flex min-w-0 items-center gap-2.5">
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-[10px] border border-border text-ink hover:bg-canvas md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-[10px] text-ink hover:bg-canvas md:hidden"
             onClick={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
           >
-            {mobileOpen ? <X size={20} strokeWidth={2} /> : <Menu size={20} strokeWidth={2} />}
+            {mobileOpen ? <X size={22} strokeWidth={2} /> : <Menu size={22} strokeWidth={2} />}
           </button>
           <Logo variant="header" />
         </div>
@@ -89,11 +89,11 @@ export function Header() {
         <div className="flex shrink-0 items-center justify-end gap-2 md:gap-3">
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-[10px] border border-border text-ink hover:bg-canvas md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-[10px] text-ink hover:bg-canvas md:hidden"
             onClick={() => setSearchOpen(true)}
             aria-label="Search"
           >
-            <Search size={18} strokeWidth={2.25} />
+            <Search size={20} strokeWidth={2.25} />
           </button>
 
           <a
@@ -113,12 +113,12 @@ export function Header() {
             </span>
           </a>
 
-          <nav className="flex items-center gap-1.5" aria-label="Account and cart">
+          <nav className="flex items-center gap-0.5 sm:gap-1.5" aria-label="Account and cart">
             <Link
               href="/account"
-              className="inline-flex min-h-[2.35rem] items-center gap-1.5 rounded-[10px] border border-border px-3 py-2 text-[0.8125rem] font-semibold tracking-tight text-ink no-underline transition hover:border-[#d1d5db] hover:bg-[#f3f4f6]"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-[10px] text-ink no-underline transition hover:bg-canvas sm:h-auto sm:min-h-[2.35rem] sm:w-auto sm:gap-1.5 sm:border sm:border-border sm:px-3 sm:py-2 sm:text-[0.8125rem] sm:font-semibold sm:tracking-tight sm:hover:border-[#d1d5db] sm:hover:bg-[#f3f4f6]"
             >
-              <User size={16} strokeWidth={2.25} aria-hidden />
+              <User size={22} strokeWidth={2.1} className="sm:h-4 sm:w-4" aria-hidden />
               <span className="hidden sm:inline">
                 {authLoading
                   ? "Account"
@@ -129,12 +129,12 @@ export function Header() {
             </Link>
             <Link
               href="/cart"
-              className="relative inline-flex min-h-[2.35rem] items-center gap-1.5 rounded-[10px] border border-border px-3 py-2 text-[0.8125rem] font-semibold tracking-tight text-ink no-underline transition hover:border-[#d1d5db] hover:bg-[#f3f4f6]"
+              className="relative inline-flex h-10 w-10 items-center justify-center rounded-[10px] text-ink no-underline transition hover:bg-canvas sm:h-auto sm:min-h-[2.35rem] sm:w-auto sm:gap-1.5 sm:border sm:border-border sm:px-3 sm:py-2 sm:text-[0.8125rem] sm:font-semibold sm:tracking-tight sm:hover:border-[#d1d5db] sm:hover:bg-[#f3f4f6]"
             >
-              <ShoppingCart size={16} strokeWidth={2.25} aria-hidden />
+              <ShoppingCart size={20} strokeWidth={2.25} className="sm:h-4 sm:w-4" aria-hidden />
               <span className="hidden sm:inline">Cart</span>
               {hydrated && itemCount > 0 ? (
-                <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-ink px-1 text-xs font-bold text-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-ink px-1 text-xs font-bold text-white sm:-right-1.5 sm:-top-1.5">
                   {itemCount > 99 ? "99+" : itemCount}
                 </span>
               ) : null}

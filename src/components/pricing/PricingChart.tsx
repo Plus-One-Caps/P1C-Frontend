@@ -97,7 +97,7 @@ export function PricingChart({
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[36rem] table-fixed border-collapse text-left">
+          <table className="w-full min-w-[28rem] table-fixed border-collapse text-left sm:min-w-[36rem]">
             <thead>
               <tr className="border-b border-[#eef2f6] bg-[#f8fafc]">
                 {pricingQtyLabels.map((qty) => (

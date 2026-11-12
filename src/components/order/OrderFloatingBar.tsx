@@ -105,6 +105,12 @@ export function OrderFloatingBar({
   const progressPct = Math.min(100, (qty / progressMax) * 100);
 
   const need = milestone ? milestone.qty - qty : 0;
+  const nudgeShort =
+    qty <= 0
+      ? "Add hats to unlock perks"
+      : milestone
+        ? `Add ${need} → ${milestone.perk}`
+        : "All perks unlocked";
   const nudge =
     qty <= 0
       ? "Add hats to unlock free perks"
@@ -122,19 +128,78 @@ export function OrderFloatingBar({
 
   return (
     <div
-      className="pointer-events-none fixed inset-x-0 bottom-0 z-40 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:px-6"
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-40 px-2.5 pb-[max(0.5rem,env(safe-area-inset-bottom))] md:px-6 md:pb-[max(0.75rem,env(safe-area-inset-bottom))]"
       role="region"
       aria-label="Order progress"
     >
       <div className="pointer-events-auto mx-auto max-w-6xl overflow-hidden rounded-2xl border border-border bg-white shadow-[0_-8px_40px_rgba(10,10,10,0.12)]">
-        <div className="flex flex-col gap-4 p-4 md:flex-row md:items-center md:gap-6 md:px-5 md:py-4">
-          {/* Progress + messaging */}
+        {/* Slim progress — always visible, denser on mobile */}
+        <div className="relative h-1 bg-[#e8eef4] md:h-[3px]">
+          <div
+            className="absolute inset-y-0 left-0 bg-pastel-sky transition-[width] duration-500 ease-out"
+            style={{ width: `${progressPct}%` }}
+          />
+        </div>
+
+        {/* Mobile: single compact row */}
+        <div className="flex items-center gap-2.5 px-3 py-2.5 sm:hidden">
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[0.8125rem] font-semibold leading-tight text-ink">
+              {nudgeShort}
+            </p>
+            <p className="mt-0.5 truncate text-[0.75rem] leading-tight text-ink-soft">
+              {qty > 0 ? (
+                <>
+                  <span className="font-bold tabular-nums text-ink">
+                    {money(total)}
+                  </span>
+                  <span className="text-ink-soft">
+                    {" "}
+                    · {qty} {itemLabel || "hat"}
+                    {qty === 1 ? "" : "s"}
+                    {setup > 0 ? ` +${money(setup)} setup` : ""}
+                  </span>
+                </>
+              ) : (
+                "Build your order"
+              )}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={onContinue}
+            disabled={disabled || loading}
+            aria-label={ctaLabel}
+            className={cn(
+              "inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-ink px-3.5 text-[0.8125rem] font-semibold text-white transition-colors hover:bg-ink-mid disabled:cursor-not-allowed disabled:opacity-50",
+            )}
+          >
+            {loading ? (
+              <Loader2 size={14} className="animate-spin" />
+            ) : (
+              <>
+                <span className="max-w-[7.5rem] truncate">
+                  {ctaLabel.startsWith("Next")
+                    ? "Next"
+                    : ctaLabel.startsWith("Add a")
+                      ? "Add"
+                      : ctaLabel}
+                </span>
+                <ArrowRight size={14} className="shrink-0" />
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* Desktop / tablet: fuller layout */}
+        <div className="hidden gap-6 p-4 sm:flex sm:flex-row sm:items-center md:px-5 md:py-4">
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold leading-snug text-ink md:text-[0.8125rem]">
               {nudge}
             </p>
             {nextBreak ? (
-              <p className="mt-1 text-sm text-ink-soft md:text-sm">
+              <p className="mt-1 text-sm text-ink-soft">
                 Next price break at{" "}
                 <span className="font-semibold text-ink">{nextBreak.at} hats</span>
                 :{" "}
@@ -144,18 +209,17 @@ export function OrderFloatingBar({
                 , you save {money(nextBreak.save)} on every hat
               </p>
             ) : qty > 0 ? (
-              <p className="mt-1 text-sm text-ink-soft md:text-sm">
+              <p className="mt-1 text-sm text-ink-soft">
                 You&apos;re on the best listed volume rate for this finish.
               </p>
             ) : (
-              <p className="mt-1 text-sm text-ink-soft md:text-sm">
+              <p className="mt-1 text-sm text-ink-soft">
                 Free artwork setup at 12 · free shipping at 24 · volume rates from
                 there.
               </p>
             )}
 
-            {/* Milestone track */}
-            <div className="relative mt-4 hidden sm:block">
+            <div className="relative mt-4">
               <div className="absolute left-0 right-0 top-[13px] h-[3px] rounded-full bg-[#e8eef4]" />
               <div
                 className="absolute left-0 top-[13px] h-[3px] rounded-full bg-pastel-sky transition-[width] duration-500 ease-out"
@@ -203,31 +267,9 @@ export function OrderFloatingBar({
                 })}
               </ul>
             </div>
-
-            {/* Compact milestones on mobile */}
-            <div className="mt-3 flex gap-2 sm:hidden">
-              {MILESTONES.map((m) => {
-                const unlocked = qty >= m.qty;
-                return (
-                  <span
-                    key={m.qty}
-                    className={cn(
-                      "inline-flex items-center gap-1 rounded-full border px-2 py-1 text-sm font-semibold",
-                      unlocked
-                        ? "border-ink bg-ink text-white"
-                        : "border-border bg-canvas text-ink-soft",
-                    )}
-                  >
-                    {unlocked ? <Check size={10} strokeWidth={3} /> : null}
-                    {m.qty}+
-                  </span>
-                );
-              })}
-            </div>
           </div>
 
-          {/* Summary + CTA */}
-          <div className="flex shrink-0 items-center gap-4 border-t border-border pt-3 md:border-l md:border-t-0 md:pl-6 md:pt-0">
+          <div className="flex shrink-0 items-center gap-4 border-l border-border pl-6">
             <div className="min-w-[6.5rem]">
               <p className="text-2xl font-bold tabular-nums leading-none tracking-tight text-ink">
                 {qty > 0 ? money(total) : "—"}
@@ -238,9 +280,7 @@ export function OrderFloatingBar({
                     {qty} {itemLabel || "hat"}
                     {qty === 1 ? "" : "s"}
                     {setup > 0 ? ` (+${money(setup)} setup)` : ""}
-                    <span className="block tabular-nums">
-                      {money(unit)}/hat
-                    </span>
+                    <span className="block tabular-nums">{money(unit)}/hat</span>
                   </>
                 ) : (
                   "Build your order"
