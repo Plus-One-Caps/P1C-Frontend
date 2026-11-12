@@ -8,17 +8,21 @@ import { CustomerAuthProvider } from "@/components/account/CustomerAuthProvider"
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isCheckout = pathname === "/checkout" || pathname?.startsWith("/checkout/");
+  const isCheckout =
+    pathname === "/checkout" || pathname?.startsWith("/checkout/");
+  const isOrder = pathname === "/order" || pathname?.startsWith("/order/");
+  const hideFooter = isCheckout || isOrder;
+  const hideHeader = isCheckout;
 
   return (
     <CustomerAuthProvider>
       <CartProvider>
         <div className="flex min-h-dvh w-full flex-1 flex-col">
-          {!isCheckout ? <Header /> : null}
+          {!hideHeader ? <Header /> : null}
           <main className="flex flex-1 flex-col overflow-x-clip bg-background">
             {children}
           </main>
-          {!isCheckout ? <Footer /> : null}
+          {!hideFooter ? <Footer /> : null}
         </div>
       </CartProvider>
     </CustomerAuthProvider>

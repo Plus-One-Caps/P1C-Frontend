@@ -29,7 +29,7 @@ import {
 } from "@/lib/catalog";
 import { Container } from "@/components/ui/Container";
 import { Field, fieldClass } from "@/components/ui/Field";
-import { Button, ButtonNative } from "@/components/ui/Button";
+import { ButtonNative } from "@/components/ui/Button";
 import { HatCard } from "@/components/shop/HatCard";
 import {
   HatVisual,
@@ -37,6 +37,7 @@ import {
   hatImageUrl,
 } from "@/components/shop/HatVisual";
 import { OrderFloatingBar } from "@/components/order/OrderFloatingBar";
+import { OrderBlankFilters } from "@/components/order/OrderBlankFilters";
 import {
   BlankConfigureModal,
   type QtyMap,
@@ -1048,7 +1049,7 @@ export function OrderWizard({
         : "Next step";
 
   return (
-    <div className="bg-canvas/40 pb-24 md:pb-32">
+    <div className="bg-canvas/40 pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:pb-[calc(7.5rem+env(safe-area-inset-bottom))] md:pb-36">
       <div ref={topRef} className="scroll-mt-20" />
 
       {/* Status / progress — stays under the site header while scrolling */}
@@ -1159,12 +1160,12 @@ export function OrderWizard({
             </div>
 
             <ButtonNative
-              variant="secondary"
+              variant="ghost"
               size="sm"
               arrow={false}
               onClick={next}
               disabled={uploading || (step === 0 && totalQty <= 0)}
-              className="h-10 w-10 shrink-0 border-transparent px-0 sm:h-auto sm:w-auto sm:min-w-[6.5rem] sm:gap-1.5 sm:border-ink sm:px-5"
+              className="h-10 w-10 shrink-0 border-transparent bg-transparent px-0 text-ink hover:border-transparent hover:bg-transparent hover:text-ink sm:h-auto sm:w-auto sm:min-w-[6.5rem] sm:gap-1.5 sm:border-ink sm:bg-ink sm:px-5 sm:text-white sm:hover:border-[#454a4e] sm:hover:bg-[#454a4e] sm:hover:text-white"
               aria-label={ctaLabel}
             >
               {step === STEPS.length - 1 ? (
@@ -1216,108 +1217,39 @@ export function OrderWizard({
                 {step === 0 && (
                   <StepShell
                     title="Pick your blanks"
-                    subtitle="Filter by brand or style, then tap a hat to choose colors and quantity."
+                    subtitle="Search by brand or style, then tap a hat to choose colors and quantity."
                   >
-                    {brands.length > 1 ? (
-                      <div className="mb-5">
-                        <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-ink-soft">
-                          Brand
-                        </p>
-                        <div
-                          className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
-                          role="tablist"
-                          aria-label="Filter by brand"
-                        >
-                          <button
-                            type="button"
-                            role="tab"
-                            aria-selected={brandFilter === "all"}
-                            onClick={() => setBrandFilter("all")}
-                            className={cn(
-                              "inline-flex min-h-9 shrink-0 items-center rounded-full border px-3 text-[0.8125rem] font-semibold transition-colors sm:min-h-10 sm:rounded-[var(--radius-md)] sm:px-3.5 sm:text-sm",
-                              brandFilter === "all"
-                                ? "border-ink bg-ink text-white"
-                                : "border-border bg-white text-ink-soft hover:border-ink/40 hover:text-ink",
-                            )}
-                          >
-                            All brands
-                            <span className="ml-1.5 tabular-nums opacity-70">
-                              {products.length}
-                            </span>
-                          </button>
-                          {brands.map((b) => (
-                            <button
-                              key={b.name}
-                              type="button"
-                              role="tab"
-                              aria-selected={brandFilter === b.name}
-                              onClick={() => setBrandFilter(b.name)}
-                              className={cn(
-                                "inline-flex min-h-9 shrink-0 items-center rounded-full border px-3 text-[0.8125rem] font-semibold transition-colors sm:min-h-10 sm:rounded-[var(--radius-md)] sm:px-3.5 sm:text-sm",
-                                brandFilter === b.name
-                                  ? "border-ink bg-ink text-white"
-                                  : "border-border bg-white text-ink-soft hover:border-ink/40 hover:text-ink",
-                              )}
-                            >
-                              {b.name}
-                              <span className="ml-1.5 tabular-nums opacity-70">
-                                {b.count}
-                              </span>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    ) : null}
-
-                    {groups.length > 1 ? (
-                      <div className="mb-7">
-                        <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-ink-soft">
-                          Style
-                        </p>
-                        <div
-                          className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
-                          role="tablist"
-                          aria-label="Blank collections"
-                        >
-                          <button
-                            type="button"
-                            role="tab"
-                            aria-selected={groupFilter === "all"}
-                            onClick={() => setGroupFilter("all")}
-                            className={cn(
-                              "inline-flex min-h-9 shrink-0 items-center rounded-full border px-3 text-[0.8125rem] font-semibold transition-colors sm:min-h-10 sm:rounded-[var(--radius-md)] sm:px-3.5 sm:text-sm",
-                              groupFilter === "all"
-                                ? "border-ink bg-ink text-white"
-                                : "border-border bg-white text-ink-soft hover:border-ink/40 hover:text-ink",
-                            )}
-                          >
-                            All
-                            <span className="ml-1.5 tabular-nums opacity-70">
-                              {products.length}
-                            </span>
-                          </button>
-                          {groups.map((g) => (
-                            <button
-                              key={g.id}
-                              type="button"
-                              role="tab"
-                              aria-selected={groupFilter === g.slug}
-                              onClick={() => setGroupFilter(g.slug)}
-                              className={cn(
-                                "inline-flex min-h-9 shrink-0 items-center rounded-full border px-3 text-[0.8125rem] font-semibold transition-colors sm:min-h-10 sm:rounded-[var(--radius-md)] sm:px-3.5 sm:text-sm",
-                                groupFilter === g.slug
-                                  ? "border-ink bg-ink text-white"
-                                  : "border-border bg-white text-ink-soft hover:border-ink/40 hover:text-ink",
-                              )}
-                            >
-                              {g.name}
-                              <span className="ml-1.5 tabular-nums opacity-70">
-                                {g.products.length}
-                              </span>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
+                    {brands.length > 1 || groups.length > 1 ? (
+                      <OrderBlankFilters
+                        brand={brandFilter}
+                        brands={
+                          brands.length > 1
+                            ? brands.map((b) => ({
+                                value: b.name,
+                                label: b.name,
+                                count: b.count,
+                              }))
+                            : []
+                        }
+                        style={groupFilter}
+                        styles={
+                          groups.length > 1
+                            ? groups.map((g) => ({
+                                value: g.slug,
+                                label: g.name,
+                                count: g.products.length,
+                              }))
+                            : []
+                        }
+                        totalCount={products.length}
+                        resultCount={filteredProductCount}
+                        onBrandChange={setBrandFilter}
+                        onStyleChange={setGroupFilter}
+                        onClear={() => {
+                          setBrandFilter("all");
+                          setGroupFilter("all");
+                        }}
+                      />
                     ) : null}
 
                     <div className="space-y-10">
@@ -1702,7 +1634,7 @@ export function OrderWizard({
                 {stepId === "decoration" && product && (
                   <StepShell
                     title="Decoration"
-                    subtitle="Pick a finish, stitch style, placements, and any color notes."
+                    subtitle="Choose a finish. Placement and extras are optional — we’ll confirm on the mockup."
                   >
                     <DecorationStep
                       methods={productMethods}
@@ -1739,49 +1671,21 @@ export function OrderWizard({
               </motion.div>
             </AnimatePresence>
 
-            {/* Step actions */}
-            <div className="mt-8">
-              <AnimatePresence>
-                {error && (
-                  <motion.p
-                    role="alert"
-                    initial={{ opacity: 0, y: -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="mb-4 flex items-start gap-2 rounded-[var(--radius-md)] bg-red-50 px-4 py-3 text-sm text-red-700"
-                  >
-                    <AlertCircle size={16} className="mt-0.5 shrink-0" />
-                    {error}
-                  </motion.p>
-                )}
-              </AnimatePresence>
-              {/* Desktop/tablet only — mobile uses sticky arrows + floating bar */}
-              <div className="hidden items-center justify-between gap-3 sm:flex">
-                {step > 0 ? (
-                  <ButtonNative
-                    variant="outline"
-                    size="lg"
-                    arrow={false}
-                    onClick={() => goTo(step - 1)}
-                  >
-                    <ArrowLeft size={16} />
-                    Back
-                  </ButtonNative>
-                ) : (
-                  <Button href="/shop" variant="ghost" size="lg" arrow={false}>
-                    Browse hats
-                  </Button>
-                )}
-                <ButtonNative
-                  variant="secondary"
-                  size="lg"
-                  onClick={next}
-                  disabled={uploading || (step === 0 && totalQty <= 0)}
+            {/* Errors only — continue via sticky arrows + floating bar */}
+            <AnimatePresence>
+              {error ? (
+                <motion.p
+                  role="alert"
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="mt-6 flex items-start gap-2 rounded-[var(--radius-md)] bg-red-50 px-4 py-3 text-sm text-red-700"
                 >
-                  {ctaLabel}
-                </ButtonNative>
-              </div>
-            </div>
+                  <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                  {error}
+                </motion.p>
+              ) : null}
+            </AnimatePresence>
           </div>
 
           {/* Summary — shown after blanks are added */}
