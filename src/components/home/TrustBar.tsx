@@ -17,7 +17,7 @@ export function TrustBar() {
 
       <Container className="relative py-20 md:py-28">
         <Reveal className="max-w-2xl">
-          <p className="text-eyebrow text-pastel-link">The Caps promise</p>
+          <p className="text-eyebrow text-pastel-link">The Plus One promise</p>
           <h2 id="trust-heading" className="mt-3 text-section-title text-ink">
             Hats you can count on.
             <span className="block text-ink-soft">For anyone who needs one.</span>

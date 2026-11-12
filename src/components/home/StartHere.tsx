@@ -235,7 +235,7 @@ export function StartHere() {
           <div className="max-w-xl">
             <p className="text-eyebrow text-pastel-link">New here?</p>
             <h2 className="mt-3 text-section-title text-ink">
-              Four clear stops
+              Four clear steps
               <span className="block text-ink-soft">before you order.</span>
             </h2>
             <p className="mt-3 max-w-md text-base leading-relaxed text-ink-soft">
