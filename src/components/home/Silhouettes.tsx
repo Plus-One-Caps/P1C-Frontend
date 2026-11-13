@@ -47,7 +47,7 @@ const tiles = [
   {
     id: "brands",
     title: "Built for brands that want more",
-    text: "From a first drop to larger programs — volume pricing, mix-and-match blanks, free shipping on 24+.",
+    text: "From a first drop to larger programs — volume pricing, no setup on reorders, free shipping on 24+.",
     href: "/pricing",
     cta: "View pricing",
     image: "/images/home/feature-brands.jpg",

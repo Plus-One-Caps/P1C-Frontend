@@ -76,6 +76,11 @@ import Link from "next/link";
 const ARTWORK_SETUP_FEE = 50;
 const ARTWORK_SETUP_FREE_AT = 12;
 
+/** Setup is free at 12+ hats, or anytime art is reused from a past order. */
+function isArtworkSetupFree(qty: number, reusedArtwork: boolean) {
+  return reusedArtwork || qty >= ARTWORK_SETUP_FREE_AT;
+}
+
 function money(n: number) {
   return n.toLocaleString("en-US", {
     style: "currency",
@@ -285,6 +290,8 @@ export function OrderWizard({
   const [decorationNotes, setDecorationNotes] = useState("");
 
   const [art, setArt] = useState<{ url: string; fileName: string; preview?: string } | null>(null);
+  /** Previous order/design art — waives artwork + location setup fees. */
+  const [reusedArtwork, setReusedArtwork] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
   const [dragging, setDragging] = useState(false);
@@ -316,6 +323,7 @@ export function OrderWizard({
         fileName: opts.fileName || "Saved artwork",
         preview: opts.artworkUrl,
       });
+      setReusedArtwork(true);
       setNoArtYet(false);
       setRights(true);
       setUploadError("");
@@ -538,19 +546,27 @@ export function OrderWizard({
         });
         continue;
       }
-      const amount = addon.perHat * qty + addon.setup;
+      const setup = reusedArtwork ? 0 : addon.setup;
+      const amount = addon.perHat * qty + setup;
       lines.push({
         label: loc,
-        value: `+${money(amount)}`,
+        value:
+          reusedArtwork && addon.setup > 0
+            ? `+${money(addon.perHat * qty)} (setup waived)`
+            : `+${money(amount)}`,
         amount,
       });
     }
 
     if (qty > 0) {
-      const setupFree = qty >= ARTWORK_SETUP_FREE_AT;
+      const setupFree = isArtworkSetupFree(qty, reusedArtwork);
       lines.push({
         label: "Artwork setup",
-        value: setupFree ? "Free" : `+${money(ARTWORK_SETUP_FEE)}`,
+        value: setupFree
+          ? reusedArtwork
+            ? "Free · reorder"
+            : "Free"
+          : `+${money(ARTWORK_SETUP_FEE)}`,
         amount: setupFree ? 0 : ARTWORK_SETUP_FEE,
       });
     }
@@ -560,6 +576,7 @@ export function OrderWizard({
     activeMethod,
     embroideryStyle,
     optionalPlacements,
+    reusedArtwork,
     totalQty,
   ]);
 
@@ -810,6 +827,7 @@ export function OrderWizard({
     setThreadPins([]);
     setSelectedPreviousId(null);
     setSavedDesignNotice(false);
+    setReusedArtwork(false);
     setArt({
       url: result.url,
       fileName: result.fileName || file.name,
@@ -995,6 +1013,7 @@ export function OrderWizard({
         artworkUrl: art?.url,
         artworkFileName: art?.fileName,
         artworkPreview: art?.preview,
+        reusedArtwork: Boolean(art && reusedArtwork),
       },
       totalQty,
       merchandiseEstimate:
@@ -1199,7 +1218,14 @@ export function OrderWizard({
             {reorderNotice ? (
               <div className="mb-5 rounded-[var(--radius-md)] border border-pastel-sky/60 bg-sky px-4 py-3 text-sm text-ink">
                 Reorder loaded with your previous blanks, artwork, and
-                decoration. Estimates use{" "}
+                decoration.{" "}
+                {reusedArtwork ? (
+                  <>
+                    <span className="font-semibold">Setup fees are waived</span>{" "}
+                    because you&apos;re reusing art.{" "}
+                  </>
+                ) : null}
+                Estimates use{" "}
                 <span className="font-semibold">today&apos;s pricing</span> —
                 past discount codes are not applied.
               </div>
@@ -1314,12 +1340,18 @@ export function OrderWizard({
                 {stepId === "art" && (
                   <StepShell
                     title="Upload your artwork"
-                    subtitle="A logo file is perfect. PNG, JPG, SVG, PDF, AI, or EPS up to 8 MB. Signed-in customers can also reuse previous artwork."
+                    subtitle="A logo file is perfect. PNG, JPG, SVG, PDF, AI, or EPS up to 8 MB. Reuse previous art from your account and we waive setup fees."
                   >
-                    {savedDesignNotice ? (
+                    {savedDesignNotice || (reusedArtwork && art) ? (
                       <div className="mb-5 rounded-[var(--radius-md)] border border-pastel-sky/60 bg-sky px-4 py-3 text-sm text-ink">
-                        We loaded artwork from your account. Confirm it still
-                        looks right — you can replace the file anytime.
+                        {savedDesignNotice
+                          ? "We loaded artwork from your account. "
+                          : "You’re reusing previous artwork. "}
+                        <span className="font-semibold">
+                          No setup fee on this art
+                        </span>{" "}
+                        — confirm it still looks right, or replace the file
+                        anytime.
                       </div>
                     ) : null}
                     {art ? (
@@ -1336,13 +1368,18 @@ export function OrderWizard({
                           <p className="truncate text-sm font-semibold">{art.fileName}</p>
                           <p className="mt-0.5 flex items-center gap-1 text-xs text-ink">
                             <CheckCircle2 size={14} />{" "}
-                            {selectedPreviousId ? "From your account" : "Uploaded"}
+                            {reusedArtwork
+                              ? "Reused art · setup waived"
+                              : selectedPreviousId
+                                ? "From your account"
+                                : "Uploaded"}
                           </p>
                         </div>
                         <button
                           type="button"
                           onClick={() => {
                             setArt(null);
+                            setReusedArtwork(false);
                             setThreadPins([]);
                             setRights(false);
                             setSelectedPreviousId(null);
@@ -1927,6 +1964,7 @@ export function OrderWizard({
         qty={totalQty}
         methodId={activeMethod?.id || methodId}
         hatsSubtotal={hatsEstimate}
+        waiveSetup={reusedArtwork}
         ctaLabel={ctaLabel}
         onContinue={next}
         disabled={uploading || (step === 0 && totalQty <= 0)}

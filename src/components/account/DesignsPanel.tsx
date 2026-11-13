@@ -345,9 +345,9 @@ export function DesignsPanel() {
                 )}
               </ButtonNative>
               <p className="text-center text-xs leading-relaxed text-ink-soft">
-                New order keeps this artwork. Reorder opens the full builder
-                with today&apos;s pricing — past discounts don&apos;t carry
-                over.
+                Reusing this artwork waives setup fees. Reorder opens the full
+                builder with today&apos;s pricing — past discounts don&apos;t
+                carry over.
               </p>
               <Link
                 href="/order"

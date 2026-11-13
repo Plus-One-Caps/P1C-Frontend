@@ -125,8 +125,8 @@ export const trustStats = [
     label: "Hat minimum — start small",
   },
   {
-    value: "Easy",
-    label: "Clean reorders, same specs",
+    value: "$0",
+    label: "Setup on reorders with prior art",
   },
 ];
 
@@ -144,8 +144,8 @@ export const trustItems = [
     text: "One clear number by quantity — not blank-only bait.",
   },
   {
-    title: "Simple reorders",
-    text: "Same specs next time, without starting from scratch.",
+    title: "No setup on reorders",
+    text: "Reuse previous art and we waive setup — same specs, lower cost next time.",
   },
 ];
 

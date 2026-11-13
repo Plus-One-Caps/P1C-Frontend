@@ -550,8 +550,8 @@ export function OrdersPanel({ highlightId }: Props) {
                         )}
                       </ButtonNative>
                       <p className="max-w-xs text-xs leading-relaxed text-ink-soft sm:text-right">
-                        Today&apos;s pricing — past discounts don&apos;t carry
-                        over.
+                        Reusing this order&apos;s art waives setup. Today&apos;s
+                        pricing — past discounts don&apos;t carry over.
                       </p>
                     </div>
                   </div>

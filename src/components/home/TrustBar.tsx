@@ -25,7 +25,7 @@ export function TrustBar() {
           <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-soft">
             One hat for yourself, a run for the team, or a full brand program —
             same mockup-first process, clear blank + decoration pricing, and
-            clean reorders when you come back.
+            no setup fees when you reorder with previous artwork.
           </p>
         </Reveal>
 

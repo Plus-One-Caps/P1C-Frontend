@@ -39,6 +39,8 @@ type Props = {
   methodId?: string;
   /** When set (from cart + product breaks), overrides method-table hats math. */
   hatsSubtotal?: number | null;
+  /** Reused artwork from a past order — artwork setup is $0. */
+  waiveSetup?: boolean;
   itemLabel?: string;
   ctaLabel: string;
   onContinue: () => void;
@@ -84,6 +86,7 @@ export function OrderFloatingBar({
   qty,
   methodId,
   hatsSubtotal,
+  waiveSetup,
   itemLabel,
   ctaLabel,
   onContinue,
@@ -91,7 +94,7 @@ export function OrderFloatingBar({
   loading,
 }: Props) {
   const unit = unitPriceFor(Math.max(qty, 1), methodId);
-  const setup = qty > 0 && qty < 12 ? ARTWORK_SETUP : 0;
+  const setup = qty > 0 && qty < 12 && !waiveSetup ? ARTWORK_SETUP : 0;
   const hatsTotal =
     qty > 0
       ? hatsSubtotal != null && Number.isFinite(hatsSubtotal)
@@ -108,23 +111,27 @@ export function OrderFloatingBar({
   const nudgeShort =
     qty <= 0
       ? "Add hats to unlock perks"
-      : milestone
-        ? `Add ${need} → ${milestone.perk}`
-        : "All perks unlocked";
+      : waiveSetup
+        ? "No setup · reusing art"
+        : milestone
+          ? `Add ${need} → ${milestone.perk}`
+          : "All perks unlocked";
   const nudge =
     qty <= 0
       ? "Add hats to unlock free perks"
-      : milestone
-        ? (
-            <>
-              Add{" "}
-              <span className="mx-0.5 inline-flex items-center rounded-md bg-ink px-1.5 py-0.5 text-[0.8125rem] font-bold uppercase tracking-wide text-white">
-                {need} more
-              </span>{" "}
-              → {milestone.perk}
-            </>
-          )
-        : "All volume perks unlocked";
+      : waiveSetup
+        ? "Setup waived — you’re reusing previous artwork"
+        : milestone
+          ? (
+              <>
+                Add{" "}
+                <span className="mx-0.5 inline-flex items-center rounded-md bg-ink px-1.5 py-0.5 text-[0.8125rem] font-bold uppercase tracking-wide text-white">
+                  {need} more
+                </span>{" "}
+                → {milestone.perk}
+              </>
+            )
+          : "All volume perks unlocked";
 
   return (
     <div
@@ -157,7 +164,11 @@ export function OrderFloatingBar({
                     {" "}
                     · {qty} {itemLabel || "hat"}
                     {qty === 1 ? "" : "s"}
-                    {setup > 0 ? ` +${money(setup)} setup` : ""}
+                    {setup > 0
+                      ? ` +${money(setup)} setup`
+                      : waiveSetup
+                        ? " · setup waived"
+                        : ""}
                   </span>
                 </>
               ) : (
@@ -210,12 +221,14 @@ export function OrderFloatingBar({
               </p>
             ) : qty > 0 ? (
               <p className="mt-1 text-sm text-ink-soft">
-                You&apos;re on the best listed volume rate for this finish.
+                {waiveSetup
+                  ? "No setup fee on this reorder — you’re reusing previous artwork."
+                  : "You’re on the best listed volume rate for this finish."}
               </p>
             ) : (
               <p className="mt-1 text-sm text-ink-soft">
-                Free artwork setup at 12 · free shipping at 24 · volume rates from
-                there.
+                Free setup at 12 · no setup on reorders · free shipping at 24 ·
+                volume rates from there.
               </p>
             )}
 
@@ -279,14 +292,22 @@ export function OrderFloatingBar({
                   <>
                     {qty} {itemLabel || "hat"}
                     {qty === 1 ? "" : "s"}
-                    {setup > 0 ? ` (+${money(setup)} setup)` : ""}
+                    {setup > 0
+                      ? ` (+${money(setup)} setup)`
+                      : waiveSetup
+                        ? " · setup waived"
+                        : ""}
                     <span className="block tabular-nums">{money(unit)}/hat</span>
                   </>
                 ) : (
                   "Build your order"
                 )}
               </p>
-              {qty > 0 && qty < 12 ? (
+              {waiveSetup && qty > 0 ? (
+                <span className="mt-1.5 inline-flex rounded-full bg-pastel-sky/70 px-2 py-0.5 text-sm font-bold text-ink">
+                  No setup on reorder
+                </span>
+              ) : qty > 0 && qty < 12 ? (
                 <span className="mt-1.5 inline-flex rounded-full bg-pastel-sky/70 px-2 py-0.5 text-sm font-bold text-ink">
                   Price drops at 12
                 </span>

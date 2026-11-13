@@ -110,7 +110,8 @@ export function AccountExperience() {
             </h1>
             <p className="mt-4 text-sm leading-relaxed text-pretty text-ink-soft sm:text-base md:text-lg">
               Sign in with the email from your order to see past runs, reuse
-              artwork, and kick off the same hats in a couple of taps.
+              artwork with no setup fees, and kick off the same hats in a couple
+              of taps.
             </p>
           </div>
           {magicError ? (
@@ -134,8 +135,8 @@ export function AccountExperience() {
               Welcome back, {greeting}
             </h1>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-ink-soft md:text-base">
-              Reorder past hats, pull saved artwork into a new build, or update
-              the details we use at checkout.
+              Reorder past hats with setup waived when you reuse art, pull saved
+              artwork into a new build, or update checkout details.
             </p>
           </div>
           <ButtonNative

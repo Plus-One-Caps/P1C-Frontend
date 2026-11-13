@@ -20,16 +20,16 @@ const included = [
     text: "The chart price is an all-in estimate for the hat and the finish you pick — not a blank-only tease.",
   },
   {
+    title: "No setup on reorders",
+    text: "Reuse previous artwork and we waive setup fees — a simple way to keep repeat runs lean.",
+  },
+  {
     title: "Digital mockup",
     text: "You see a preview and a clear quote before production. Revise until it looks right.",
   },
   {
     title: "Tracked shipping",
     text: "Orders of 24+ hats ship free. Smaller runs ship with tracking at a simple rate.",
-  },
-  {
-    title: "Human support",
-    text: "Art questions, color matches, and timelines go to people who work the orders.",
   },
 ];
 
@@ -68,6 +68,10 @@ const faqs = [
   {
     q: "Can I mix styles and colors?",
     a: "Yes — mix blanks and colors in one order. Volume pricing follows your total quantity for the run.",
+  },
+  {
+    q: "Do reorders still charge setup?",
+    a: "No — when you reuse previous artwork, artwork and location setup fees are waived. You pay the blank + decoration rate for the new quantity.",
   },
 ];
 

@@ -55,7 +55,11 @@ const sections = [
       },
       {
         q: "Can I reuse artwork from a past order?",
-        a: "If you’re signed in, previous approved artwork can appear in the order flow so you don’t re-upload. New customers upload art with the order; we’ll save it to your account for next time.",
+        a: "Yes — if you’re signed in, pull previous approved artwork into a new order. Reusing that art waives artwork and location setup fees, so reorders stay simpler and cheaper. New customers upload art once; we save it for next time.",
+      },
+      {
+        q: "Is there a setup fee?",
+        a: "Artwork setup is $50 under 12 hats (free at 12+). Extra decoration locations can also include a setup. Reorders that reuse previous artwork waive those setup fees — you only pay the blank + decoration rate.",
       },
       {
         q: "Which decoration should I choose?",

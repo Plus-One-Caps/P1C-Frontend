@@ -206,8 +206,9 @@ export function Pricing({ hideIntro = false }: PricingProps) {
 
             <p className="border-t border-[#eef2f6] px-5 py-3.5 text-xs leading-relaxed text-ink-soft md:px-6">
               Extra print locations add to the per-hat rate. Specialty colors /
-              oversized sizes may add $2. You always approve a mockup before
-              production.
+              oversized sizes may add $2. Artwork setup is free at 12+ hats — and
+              always waived when you reorder with previous art. You always
+              approve a mockup before production.
             </p>
           </div>
         </Reveal>

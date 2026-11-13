@@ -43,6 +43,8 @@ export type CartDesign = {
   artworkFileName?: string;
   /** May be a blob URL — useful for UI only; order submit uses artworkUrl. */
   artworkPreview?: string;
+  /** True when art was reused from a past order/design — setup fees waived. */
+  reusedArtwork?: boolean;
 };
 
 export type CartItem = {

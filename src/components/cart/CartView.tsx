@@ -86,8 +86,9 @@ export function CartView() {
             <div>
               <p className="font-semibold">Reorder ready for review</p>
               <p className="mt-0.5 text-ink-soft">
-                Same blanks, counts, and artwork from your past order. Confirm
-                everything looks right, then continue to checkout.
+                Same blanks, counts, and artwork from your past order — setup
+                fees are waived when you reuse that art. Confirm everything
+                looks right, then continue to checkout.
               </p>
             </div>
           </div>
